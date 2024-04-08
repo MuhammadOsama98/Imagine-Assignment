@@ -1,13 +1,14 @@
 
 import Foundation
-import RealmSwift
-
 
 class HomePageViewModel{
-    
-    
-    
+
     weak var homePageCoordinator:HomePageCoordinator?
+    
+    // Properties for pagination
+    var currentPage = 1
+    var pageSize = 20
+    var isFetching = false
     
     // Property to hold error message
      var errorMessage: String? {
@@ -36,33 +37,52 @@ class HomePageViewModel{
     var searchResults : [SearchResult] = []
     
     
-    
-    
-    func fetchTrending(){
-         apiClient.requestTrendingGifs { searchResults,error  in
-             if let error = error {
-                 // Update error message
-                 self.errorMessage = "Error fetching trending GIFs: \(error.localizedDescription)"
-                 print("Error: \(error)")
-             } else {
-                 self.searchResults = searchResults ?? []
-                 self.apiResultUpdated()
-             }
-         }
-     }
-     
-     func searchGif(query:String){
-         apiClient.requestSearchGifs(query: query) { searchResults,error  in
-             if let error = error {
-                 // Update error message
-                 self.errorMessage = "Error searching GIFs: \(error.localizedDescription)"
-                 print("Error: \(error)")
-             } else {
-                 self.searchResults = searchResults ?? []
-                 self.apiResultUpdated()
-             }
-         }
-     }
-    
+
+  
+    func fetchTrending() {
+           guard !isFetching else { return } // Return if already fetching
+           
+           isFetching = true 
+           
+           apiClient.requestTrendingGifs(page: currentPage, pageSize: pageSize) { [weak self] searchResults, error in
+               guard let self = self else { return }
+               self.isFetching = false
+               
+               if let error = error {
+                   self.errorMessage = "Error fetching trending GIFs: \(error.localizedDescription)"
+                   print("Error: \(error)")
+               } else {
+                   if let results = searchResults {
+                       // Append new results to existing ones
+                       self.searchResults.append(contentsOf: results)
+                       self.apiResultUpdated()
+                       self.currentPage += 1
+                   }
+               }
+           }
+       }
+       
+       func searchGif(query: String) {
+           guard !isFetching else { return } // Return if already fetching
+           
+           isFetching = true
+           
+           apiClient.requestSearchGifs(query: query, page: currentPage, pageSize: pageSize) { [weak self] searchResults, error in
+               guard let self = self else { return }
+               self.isFetching = false
+               
+               if let error = error {
+                   self.errorMessage = "Error searching GIFs: \(error.localizedDescription)"
+                   print("Error: \(error)")
+               } else {
+                   if let results = searchResults {
+                       // Append new results to existing ones
+                       self.searchResults.append(contentsOf: results)
+                       self.apiResultUpdated()
+                       self.currentPage += 1
+                   }
+               }
+           }
+       }
     
 }

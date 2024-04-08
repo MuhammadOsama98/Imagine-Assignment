@@ -18,22 +18,22 @@ struct GifAPIClient {
     }
     
     
-    func requestTrendingGifs(completion: @escaping ([SearchResult]?, Error?) -> Void) {
-        let requestUrl = endPoint(endPoint: .trending) + "?api_key=\(Constants.giphyApiKey)&limit=25&rating=pg"
-    
-        AF.request(requestUrl).responseData(completionHandler: { response in
-            switch response.result {
-            case .success(let data):
-                if let result: ResponseModel = parse(json: data) {
-                    completion(result.data, nil)
-                } else {
-                    completion(nil, GifAPIError.decodingError)
-                }
-            case .failure(let error):
-                completion(nil, GifAPIError.networkError(error))
-            }
-        })
-    }
+    func requestTrendingGifs(page: Int, pageSize: Int, completion: @escaping ([SearchResult]?, Error?) -> Void) {
+          let requestUrl = endPoint(endPoint: .trending) + "?api_key=\(Constants.giphyApiKey)&limit=\(pageSize)&offset=\(page * pageSize)&rating=pg"
+      
+          AF.request(requestUrl).responseData(completionHandler: { response in
+              switch response.result {
+              case .success(let data):
+                  if let result: ResponseModel = parse(json: data) {
+                      completion(result.data, nil)
+                  } else {
+                      completion(nil, GifAPIError.decodingError)
+                  }
+              case .failure(let error):
+                  completion(nil, GifAPIError.networkError(error))
+              }
+          })
+      }
     
     func requestGifDetails(id: String, completion: @escaping (SearchResult?, Error?) -> Void) {
         let requestUrl = endPoint(value: id) + "?api_key=\(Constants.giphyApiKey)"
@@ -53,22 +53,22 @@ struct GifAPIClient {
     }
     
     
-    func requestSearchGifs(query: String, completion: @escaping ([SearchResult]?, Error?) -> Void) {
-        let requestUrl = endPoint(endPoint: .search) + "?api_key=\(Constants.giphyApiKey)&q=\(query)&limit=25&offset=0&rating=g&lang=en"
-      
-        AF.request(requestUrl).responseData(completionHandler: { response in
-            switch response.result {
-            case .success(let data):
-                if let result: ResponseModel = parse(json: data) {
-                    completion(result.data, nil)
-                } else {
-                    completion(nil, GifAPIError.decodingError)
-                }
-            case .failure(let error):
-                completion(nil, GifAPIError.networkError(error))
-            }
-        })
-    }
+    func requestSearchGifs(query: String, page: Int, pageSize: Int, completion: @escaping ([SearchResult]?, Error?) -> Void) {
+           let requestUrl = endPoint(endPoint: .search) + "?api_key=\(Constants.giphyApiKey)&q=\(query)&limit=\(pageSize)&offset=\(page * pageSize)&rating=g&lang=en"
+         
+           AF.request(requestUrl).responseData(completionHandler: { response in
+               switch response.result {
+               case .success(let data):
+                   if let result: ResponseModel = parse(json: data) {
+                       completion(result.data, nil)
+                   } else {
+                       completion(nil, GifAPIError.decodingError)
+                   }
+               case .failure(let error):
+                   completion(nil, GifAPIError.networkError(error))
+               }
+           })
+       }
 
     
 

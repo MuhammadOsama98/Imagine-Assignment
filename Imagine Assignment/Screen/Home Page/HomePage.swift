@@ -9,30 +9,16 @@ class HomePage: BaseVC {
     
       var viewModel  = HomePageViewModel()
 
-    
+      var isFetching = false // Flag to prevent multiple requests
+
   
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        // Assigning closures with capture lists to avoid retain cycles
-        viewModel.apiResultUpdated = { [weak self] in
-            guard let self = self else { return }
-            self.indicator.stopAnimating()
-            self.tableView.reloadData()
-        }
-        
-        // Start the indicator before fetching data
-        indicator.startAnimating()
-        viewModel.fetchTrending()
-        
-        // Set up observer for error message
-        viewModel.errorOccurred = { [weak self] errorMessage in
-            guard let self = self else { return }
-            if let errorMessage = errorMessage {
-                // Display error message
-                self.showErrorAlert(message: errorMessage)
-            }
-        }
+
+        setupViewModelBindings()
+        fetchDataIfNeeded()
+
     }
  
 
@@ -46,6 +32,43 @@ class HomePage: BaseVC {
         setupTableView()
 
     }
+    
+    
+    private func setupViewModelBindings() {
+            viewModel.apiResultUpdated = { [weak self] in
+                guard let self = self else { return }
+                self.handleDataUpdate()
+            }
+            
+            viewModel.errorOccurred = { [weak self] errorMessage in
+                guard let self = self else { return }
+                self.handleError(errorMessage)
+            }
+        }
+        
+        private func fetchDataIfNeeded() {
+            if !isFetching {
+                isFetching = true
+                indicator.startAnimating()
+                viewModel.fetchTrending()
+            }
+        }
+        
+        private func handleDataUpdate() {
+            indicator.stopAnimating()
+            tableView.reloadData()
+            isFetching = false
+        }
+        
+        private func handleError(_ errorMessage: String?) {
+            indicator.stopAnimating()
+            if let errorMessage = errorMessage {
+                showErrorAlert(message: errorMessage)
+            }
+            isFetching = false
+        }
+        
+    
     
     override func setNavigationBar(title: String?) {
         navigationItem.title = title ?? ""
@@ -108,7 +131,7 @@ extension HomePage: UISearchBarDelegate {
 
 
 
-extension HomePage : UITableViewDelegate,UITableViewDataSource{
+extension HomePage : UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.viewModel.searchResults.count
     }
@@ -165,6 +188,19 @@ func setupTableView(){
         viewModel.goToItemDetails(gifId: self.viewModel.searchResults[indexPath.row].id)
     }
 
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        let position = scrollView.contentOffset.y
+        
+        if position > (self.tableView.contentSize.height - 100 - scrollView.frame.size.height){
+
+        //To update the data when it reaches the last point in tableview
+        //fetchDataIfNeeded()
+ 
+        }
+        
+    }
 }
 
 
