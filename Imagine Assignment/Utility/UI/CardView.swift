@@ -1,11 +1,3 @@
-//
-//  CardView.swift
-//  Imagine Assignment
-//
-//  Created by Pillars Fintech on 05/04/2024.
-//
-
-
 import Foundation
 import UIKit
 

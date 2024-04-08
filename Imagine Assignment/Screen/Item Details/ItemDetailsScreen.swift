@@ -1,9 +1,3 @@
-//
-//  ItemDetailsScreen.swift
-//  Imagine Assignment
-//
-//  Created by Pillars Fintech on 05/04/2024.
-//
 
 import UIKit
 import Kingfisher

@@ -1,9 +1,3 @@
-//
-//  Imagine_AssignmentTests.swift
-//  Imagine AssignmentTests
-//
-//  Created by Pillars Fintech on 04/04/2024.
-//
 
 import XCTest
 @testable import Imagine_Assignment

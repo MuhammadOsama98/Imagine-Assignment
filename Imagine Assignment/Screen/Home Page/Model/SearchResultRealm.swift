@@ -1,9 +1,3 @@
-//
-//  SearchResultRealm.swift
-//  Imagine Assignment
-//
-//  Created by Pillars Fintech on 06/04/2024.
-//
 
 import RealmSwift
 
