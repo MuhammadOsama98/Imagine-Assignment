@@ -13,9 +13,15 @@ class FavoriteScreen: BaseVC {
     let sectionInsets = UIEdgeInsets(top: 5, left: 20, bottom: 5, right: 20)
 
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+       
+        
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setupNavigationBar()
         viewModel.fetchTrending()
         collectionView.reloadData()
     }
@@ -23,7 +29,6 @@ class FavoriteScreen: BaseVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupNavigationBar()
         setupCollectionView()
 
 
@@ -51,7 +56,11 @@ class FavoriteScreen: BaseVC {
     }
     
     @objc override func backFuncs() {
-        viewModel.goToBack()
+        
+        DispatchQueue.main.async {
+            self.viewModel.goToBack()
+
+        }
         
     }
 

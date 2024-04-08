@@ -42,11 +42,7 @@ class BaseVC: UIViewController {
     }
     
 
-    func setNavigationBar(title:String?){
-        navigationItem.title = title ?? ""
-        navigationItem.titleView?.tintColor = .white
 
-    }
     
     
     func openURL(_ urlString: String) {
@@ -102,27 +98,27 @@ class BaseVC: UIViewController {
       }
     
     
-    func showSearchBarButton(shouldShow: Bool) {
-        let searchButton  = UIButton(type: .system)
-        searchButton.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
-        searchButton.tintColor = .black
-        searchButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
-        searchButton.addTarget(self, action:#selector(handleShowSearchBar), for: .touchUpInside)
+    func setNavigationBar(title:String?){
+        navigationItem.title = title ?? ""
+        navigationItem.titleView?.tintColor = .white
 
-        
-        
-        if shouldShow {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: searchButton)
-        } else {
-            navigationItem.rightBarButtonItem = nil
-        }
     }
     
-    @objc func handleShowSearchBar() {
-        self.searchBar.becomeFirstResponder()
+    func showSearchBarButton(shouldShow: Bool) {
+        if shouldShow {
+             let searchButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(handleShowSearchBar))
+             searchButton.tintColor = .black
+             navigationItem.rightBarButtonItem = searchButton
+         } else {
+             navigationItem.rightBarButtonItem = nil
+         }
+    }
 
-            
-            self.search(shouldShow: true)
+    @objc func handleShowSearchBar() {
+        DispatchQueue.main.async { [weak self] in
+            self?.searchBar.becomeFirstResponder()
+            self?.search(shouldShow: true)
+        }
     }
     
     

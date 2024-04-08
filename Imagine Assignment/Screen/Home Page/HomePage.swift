@@ -15,6 +15,7 @@ class HomePage: BaseVC {
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         tableView.reloadData()
+        self.setNavigationBar(title: "Home Page")
 
     }
     
@@ -31,7 +32,6 @@ class HomePage: BaseVC {
         //searchBar
         searchBar.sizeToFit()
         searchBar.delegate = self
-        self.setNavigationBar(title: "Home Page")
         setupTableView()
         setupViewModelBindings()
         fetchDataIfNeeded()
@@ -88,12 +88,16 @@ class HomePage: BaseVC {
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
                 
-    showSearchBarButton(shouldShow: true)
+      showSearchBarButton(shouldShow: true)
 
     }
     
     @objc override func backFuncs() {
-        viewModel.homePageCoordinator?.toFavoriteScreen()
+        
+        DispatchQueue.main.async {
+            self.viewModel.homePageCoordinator?.toFavoriteScreen()
+
+        }
 
     }
 
