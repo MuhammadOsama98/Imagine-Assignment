@@ -77,6 +77,7 @@ class HomePageViewModel{
                } else {
                    if let results = searchResults {
                        // Append new results to existing ones
+                       self.searchResults.removeAll()
                        self.searchResults.append(contentsOf: results)
                        self.apiResultUpdated()
                        self.currentPage += 1
