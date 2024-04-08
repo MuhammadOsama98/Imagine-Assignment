@@ -12,13 +12,16 @@ class HomePage: BaseVC {
       var isFetching = false // Flag to prevent multiple requests
 
   
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        tableView.reloadData()
+
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        setupViewModelBindings()
-        fetchDataIfNeeded()
-
+        
     }
  
 
@@ -30,6 +33,8 @@ class HomePage: BaseVC {
         searchBar.delegate = self
         self.setNavigationBar(title: "Home Page")
         setupTableView()
+        setupViewModelBindings()
+        fetchDataIfNeeded()
 
     }
     
@@ -114,7 +119,6 @@ extension HomePage: UISearchBarDelegate {
   func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
       
       self.search(shouldShow: false)
-
       self.searchBar.text = ""
       self.viewModel.fetchTrending()
       self.tableView.reloadData()
@@ -150,14 +154,13 @@ extension HomePage : UITableViewDelegate,UITableViewDataSource,UIScrollViewDeleg
             if cell.isFavorite {
                 
                 
-                self.showAlert(title: "Delete", message: "Are you sure you want to delete this item?", actionTitle: "Delete", cancelTitle: "Cancel", actionHandler: {
-                    
-                    
-                    RealmControl.shared.deleteFavorite(id: item.id)
-                    let image = UIImage(systemName: "heart")
-                cell.btnFavorite.setImage(image, for: .normal)
-                cell.isFavorite = false
-                })
+            self.showAlert(title: "Delete", message: "Are you sure you want to delete this item?", actionTitle: "Delete", cancelTitle: "Cancel", actionHandler: {
+
+            RealmControl.shared.deleteFavorite(id: item.id)
+            let image = UIImage(systemName: "heart")
+            cell.btnFavorite.setImage(image, for: .normal)
+            cell.isFavorite = false
+            })
 
                 
             }else{

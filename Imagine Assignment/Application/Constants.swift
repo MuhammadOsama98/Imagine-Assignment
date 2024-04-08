@@ -14,9 +14,9 @@ extension Constants {
     
     
     
-//    static let giphyApiKey = "apc4oEQR75jdVvOkb2qjIWpp5B3GO5b7"
+    static let giphyApiKey = "gqefV3VXDJSMH8TPKh1uwL2oSTLiUsuc"
 
     
-    static let giphyApiKey = "1c9equKb4xdMk5EdvzLv5RDWjNtPnzeo"
+//    static let giphyApiKey = "1c9equKb4xdMk5EdvzLv5RDWjNtPnzeo"
 
 }

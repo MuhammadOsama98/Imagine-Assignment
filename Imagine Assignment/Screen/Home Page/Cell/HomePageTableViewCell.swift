@@ -12,6 +12,9 @@ class HomePageTableViewCell: UITableViewCell {
             btnFavorite.setImage(image, for: .normal)
         }
     }
+    
+
+    
     var buttonAction: (() -> Void)?
     
     lazy var contentViews: CardView = {
@@ -88,6 +91,8 @@ class HomePageTableViewCell: UITableViewCell {
         contentViews.addSubviews(imageViewItem, titleLabel, descriptionLabel, favoriteBtnViews)
         favoriteBtnViews.addSubview(btnFavorite)
         
+        
+        
         NSLayoutConstraint.activate([
             // Card view
             contentViews.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
@@ -96,20 +101,21 @@ class HomePageTableViewCell: UITableViewCell {
             contentViews.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             
             // Image view
-            imageViewItem.heightAnchor.constraint(equalToConstant: 200),
             imageViewItem.leadingAnchor.constraint(equalTo: contentViews.leadingAnchor),
             imageViewItem.topAnchor.constraint(equalTo: contentViews.topAnchor),
             imageViewItem.trailingAnchor.constraint(equalTo: contentViews.trailingAnchor),
+            imageViewItem.heightAnchor.constraint(equalToConstant: 200),
+
             
             // Title label
-            titleLabel.topAnchor.constraint(equalTo: imageViewItem.bottomAnchor, constant: 10),
-            titleLabel.leadingAnchor.constraint(equalTo: contentViews.leadingAnchor, constant: 10),
-            titleLabel.trailingAnchor.constraint(equalTo: contentViews.trailingAnchor, constant: -10),
+            titleLabel.topAnchor.constraint(equalTo: imageViewItem.bottomAnchor, constant: 20),
+            titleLabel.leadingAnchor.constraint(equalTo: contentViews.leadingAnchor, constant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: contentViews.trailingAnchor, constant: -20),
             
             // Description label
-            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-            descriptionLabel.leadingAnchor.constraint(equalTo: contentViews.leadingAnchor, constant: 10),
-            descriptionLabel.trailingAnchor.constraint(equalTo: contentViews.trailingAnchor, constant: -10),
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+            descriptionLabel.leadingAnchor.constraint(equalTo: contentViews.leadingAnchor, constant: 20),
+            descriptionLabel.trailingAnchor.constraint(equalTo: contentViews.trailingAnchor, constant: -20),
             
             // Favorite button views
             favoriteBtnViews.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 10),
@@ -124,8 +130,39 @@ class HomePageTableViewCell: UITableViewCell {
             btnFavorite.trailingAnchor.constraint(equalTo: favoriteBtnViews.trailingAnchor, constant: -10),
             btnFavorite.bottomAnchor.constraint(equalTo: favoriteBtnViews.bottomAnchor, constant: -10)
         ])
+        
+
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            // Adjust UI for iPad
+
+//            NSLayoutConstraint.activate([
+//                imageViewItem.heightAnchor.constraint(equalTo: contentViews.heightAnchor, multiplier: 0.3),
+//                favoriteBtnViews.widthAnchor.constraint(equalToConstant: 150),
+//                favoriteBtnViews.heightAnchor.constraint(equalToConstant: 150),
+//            ])
+            
+            
+            
+            titleLabel.font = .systemFont(ofSize: 27, weight: .bold)
+            descriptionLabel.font = .systemFont(ofSize: 25, weight: .regular)
+            
+        }else{
+            // Common UI settings
+            titleLabel.font = .systemFont(ofSize: 17, weight: .bold)
+            descriptionLabel.font = .systemFont(ofSize: 15, weight: .regular)
+
+//            NSLayoutConstraint.deactivate([
+//                imageViewItem.heightAnchor.constraint(equalToConstant: 200),
+//                favoriteBtnViews.widthAnchor.constraint(equalToConstant: 50),
+//                favoriteBtnViews.heightAnchor.constraint(equalToConstant: 50),
+//            ])
+//            
+        }
+        
+        
     }
-    
+
     func setData(searchResult: SearchResult) {
         titleLabel.text = searchResult.title
         let url = URL(string: searchResult.images.downsized.url)
@@ -145,3 +182,4 @@ class HomePageTableViewCell: UITableViewCell {
     
     }
 }
+

@@ -53,10 +53,26 @@ class ItemDetailsScreen: BaseVC {
         
         setupViewModel()
         setupUI()
+        setUpipad()
 
         
         
     }
+    
+    private func setUpipad(){
+        
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            // Adjust UI for iPad
+            itemDetailsTitle.font = .systemFont(ofSize: 29, weight: .bold)
+            itemDetailsDescription.font = .systemFont(ofSize: 26, weight: .regular)
+            itemDetailsType.font = .systemFont(ofSize: 27, weight: .bold)
+
+        }
+        
+        
+    }
+
     
     private func setupViewModel() {
         viewModel.apiResultUpdated = { [weak self] in
