@@ -164,18 +164,6 @@ class FavoriteCell: UICollectionViewCell {
             ])
             
             
-//            
-//                     NSLayoutConstraint.activate([
-//                     contentViews.heightAnchor.constraint(equalToConstant: 240) ,
-//                     contentViews.widthAnchor.constraint(equalToConstant: 170) ,
-//                     imageViewItem.heightAnchor.constraint(equalToConstant: 120),
-//                     favoriteBtnViews.widthAnchor.constraint(equalToConstant: 50),
-//                     favoriteBtnViews.heightAnchor.constraint(equalToConstant: 50),
-//                     btnFavorite.widthAnchor.constraint(equalToConstant: 27),
-//                     btnFavorite.heightAnchor.constraint(equalToConstant: 27),
-//
-//                     ])
-
             
         }else{
             // Common UI settings
