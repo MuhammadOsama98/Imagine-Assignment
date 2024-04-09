@@ -133,7 +133,9 @@ class HomePageTableViewCell: UITableViewCell {
             // Adjust UI for iPad
             
             titleLabel.font = .systemFont(ofSize: 27, weight: .bold)
-            descriptionLabel.font = .systemFont(ofSize: 25, weight: .regular)
+            descriptionLabel.font = .systemFont(ofSize: 25, weight: .light)
+            favoriteBtnViews.cornerRadius = 7
+
 
             
             NSLayoutConstraint.activate([
