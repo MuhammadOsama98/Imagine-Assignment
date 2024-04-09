@@ -106,8 +106,6 @@ class FavoriteCell: UICollectionViewCell {
             contentViews.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
             contentViews.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
             contentViews.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
-            contentViews.heightAnchor.constraint(equalToConstant: 240) ,
-            contentViews.widthAnchor.constraint(equalToConstant: 170) ,
 
         ])
         
@@ -116,7 +114,6 @@ class FavoriteCell: UICollectionViewCell {
             imageViewItem.topAnchor.constraint(equalTo: contentViews.topAnchor,constant: 0),
             imageViewItem.leadingAnchor.constraint(equalTo: contentViews.leadingAnchor,constant: 0),
             imageViewItem.trailingAnchor.constraint(equalTo: contentViews.trailingAnchor,constant: 0),
-            imageViewItem.heightAnchor.constraint(equalToConstant: 120)
         ])
         
         // Title Label constraints
@@ -133,46 +130,71 @@ class FavoriteCell: UICollectionViewCell {
             favoriteBtnViews.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
             favoriteBtnViews.trailingAnchor.constraint(equalTo: contentViews.trailingAnchor, constant: -10),
             favoriteBtnViews.bottomAnchor.constraint(equalTo: contentViews.bottomAnchor, constant: -10),
-            favoriteBtnViews.widthAnchor.constraint(equalToConstant: 35),
-            favoriteBtnViews.heightAnchor.constraint(equalToConstant: 35)
+
         ])
         
         // Favorite Button constraints
         NSLayoutConstraint.activate([
-//            btnFavorite.topAnchor.constraint(equalTo: favoriteBtnViews.topAnchor, constant: 7),
-//            btnFavorite.leadingAnchor.constraint(equalTo: favoriteBtnViews.leadingAnchor, constant: 7),
-//            btnFavorite.trailingAnchor.constraint(equalTo: favoriteBtnViews.trailingAnchor, constant: -7),
-//            btnFavorite.bottomAnchor.constraint(equalTo: favoriteBtnViews.bottomAnchor, constant: -7),
-            
-            btnFavorite.widthAnchor.constraint(equalToConstant: 27),
-            btnFavorite.heightAnchor.constraint(equalToConstant: 27),
+
             btnFavorite.centerXAnchor.constraint(equalTo: favoriteBtnViews.centerXAnchor),
             btnFavorite.centerYAnchor.constraint(equalTo: favoriteBtnViews.centerYAnchor),
 
             
         ])
         
-//        
-//        NSLayoutConstraint.deactivate([
-//            imageViewItem.heightAnchor.constraint(equalToConstant: 120),
-//            favoriteBtnViews.widthAnchor.constraint(equalToConstant: 35),
-//            favoriteBtnViews.heightAnchor.constraint(equalToConstant: 35),
-//            contentViews.heightAnchor.constraint(equalToConstant: 240),
-//            contentViews.widthAnchor.constraint(equalToConstant: 170)
-//        ])
+
+        
         
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             // Adjust UI for iPad
-            titleLabel.font = .systemFont(ofSize: 21, weight: .bold)
-            descriptionLabel.font = .systemFont(ofSize: 20, weight: .regular)
+            
+            titleLabel.font = .systemFont(ofSize: 17, weight: .bold)
+            descriptionLabel.font = .systemFont(ofSize: 11, weight: .regular)
+
+            NSLayoutConstraint.activate([
+            contentViews.heightAnchor.constraint(equalToConstant: 280) ,
+            contentViews.widthAnchor.constraint(equalToConstant: 280) ,
+            imageViewItem.heightAnchor.constraint(equalToConstant: 150),
+            favoriteBtnViews.widthAnchor.constraint(equalToConstant: 50),
+            favoriteBtnViews.heightAnchor.constraint(equalToConstant: 50),
+            btnFavorite.widthAnchor.constraint(equalToConstant: 27),
+            btnFavorite.heightAnchor.constraint(equalToConstant: 27),
+
+            ])
+            
+            
+//            
+//                     NSLayoutConstraint.activate([
+//                     contentViews.heightAnchor.constraint(equalToConstant: 240) ,
+//                     contentViews.widthAnchor.constraint(equalToConstant: 170) ,
+//                     imageViewItem.heightAnchor.constraint(equalToConstant: 120),
+//                     favoriteBtnViews.widthAnchor.constraint(equalToConstant: 50),
+//                     favoriteBtnViews.heightAnchor.constraint(equalToConstant: 50),
+//                     btnFavorite.widthAnchor.constraint(equalToConstant: 27),
+//                     btnFavorite.heightAnchor.constraint(equalToConstant: 27),
+//
+//                     ])
+
             
         }else{
             // Common UI settings
             titleLabel.font = .systemFont(ofSize: 13, weight: .bold)
             descriptionLabel.font = .systemFont(ofSize: 11, weight: .regular)
+   
+            NSLayoutConstraint.activate([
+            contentViews.heightAnchor.constraint(equalToConstant: 240) ,
+            contentViews.widthAnchor.constraint(equalToConstant: 170) ,
+            imageViewItem.heightAnchor.constraint(equalToConstant: 120),
+            favoriteBtnViews.widthAnchor.constraint(equalToConstant: 50),
+            favoriteBtnViews.heightAnchor.constraint(equalToConstant: 50),
+            btnFavorite.widthAnchor.constraint(equalToConstant: 27),
+            btnFavorite.heightAnchor.constraint(equalToConstant: 27),
 
+            ])
         }
+        
+
     }
 
     func setData(searchResult:SearchResultRealm){

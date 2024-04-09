@@ -14,6 +14,7 @@ class HomePageTableViewCell: UITableViewCell {
     }
     
 
+
     
     var buttonAction: (() -> Void)?
     
@@ -104,7 +105,6 @@ class HomePageTableViewCell: UITableViewCell {
             imageViewItem.leadingAnchor.constraint(equalTo: contentViews.leadingAnchor),
             imageViewItem.topAnchor.constraint(equalTo: contentViews.topAnchor),
             imageViewItem.trailingAnchor.constraint(equalTo: contentViews.trailingAnchor),
-            imageViewItem.heightAnchor.constraint(equalToConstant: 200),
 
             
             // Title label
@@ -121,44 +121,47 @@ class HomePageTableViewCell: UITableViewCell {
             favoriteBtnViews.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 10),
             favoriteBtnViews.trailingAnchor.constraint(equalTo: contentViews.trailingAnchor, constant: -10),
             favoriteBtnViews.bottomAnchor.constraint(equalTo: contentViews.bottomAnchor, constant: -10),
-            favoriteBtnViews.widthAnchor.constraint(equalToConstant: 50),
-            favoriteBtnViews.heightAnchor.constraint(equalToConstant: 50),
-            
+
             // Favorite button
-            btnFavorite.topAnchor.constraint(equalTo: favoriteBtnViews.topAnchor, constant: 10),
-            btnFavorite.leadingAnchor.constraint(equalTo: favoriteBtnViews.leadingAnchor, constant: 10),
-            btnFavorite.trailingAnchor.constraint(equalTo: favoriteBtnViews.trailingAnchor, constant: -10),
-            btnFavorite.bottomAnchor.constraint(equalTo: favoriteBtnViews.bottomAnchor, constant: -10)
+
+            btnFavorite.centerXAnchor.constraint(equalTo: favoriteBtnViews.centerXAnchor),
+            btnFavorite.centerYAnchor.constraint(equalTo: favoriteBtnViews.centerYAnchor),
         ])
         
 
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             // Adjust UI for iPad
-
-//            NSLayoutConstraint.activate([
-//                imageViewItem.heightAnchor.constraint(equalTo: contentViews.heightAnchor, multiplier: 0.3),
-//                favoriteBtnViews.widthAnchor.constraint(equalToConstant: 150),
-//                favoriteBtnViews.heightAnchor.constraint(equalToConstant: 150),
-//            ])
-            
-            
             
             titleLabel.font = .systemFont(ofSize: 27, weight: .bold)
             descriptionLabel.font = .systemFont(ofSize: 25, weight: .regular)
+
+            
+            NSLayoutConstraint.activate([
+                imageViewItem.heightAnchor.constraint(equalToConstant: 500),
+                favoriteBtnViews.widthAnchor.constraint(equalToConstant: 70),
+                favoriteBtnViews.heightAnchor.constraint(equalToConstant: 70),
+                btnFavorite.widthAnchor.constraint(equalToConstant: 50),
+                btnFavorite.heightAnchor.constraint(equalToConstant: 50),
+            ])
+
             
         }else{
             // Common UI settings
             titleLabel.font = .systemFont(ofSize: 17, weight: .bold)
             descriptionLabel.font = .systemFont(ofSize: 15, weight: .regular)
+   
+            NSLayoutConstraint.activate([
+                imageViewItem.heightAnchor.constraint(equalToConstant: 200),
+                favoriteBtnViews.widthAnchor.constraint(equalToConstant: 50),
+                favoriteBtnViews.heightAnchor.constraint(equalToConstant: 50),
+                btnFavorite.widthAnchor.constraint(equalToConstant: 27),
+                btnFavorite.heightAnchor.constraint(equalToConstant: 27),
 
-//            NSLayoutConstraint.deactivate([
-//                imageViewItem.heightAnchor.constraint(equalToConstant: 200),
-//                favoriteBtnViews.widthAnchor.constraint(equalToConstant: 50),
-//                favoriteBtnViews.heightAnchor.constraint(equalToConstant: 50),
-//            ])
-//            
+            ])
         }
+        
+        
         
         
     }

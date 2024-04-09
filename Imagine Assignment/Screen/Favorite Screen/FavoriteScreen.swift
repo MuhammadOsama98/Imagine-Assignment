@@ -10,7 +10,7 @@ class FavoriteScreen: BaseVC {
 
     var viewModel  = FavoriteViewModel()
     
-    let sectionInsets = UIEdgeInsets(top: 5, left: 20, bottom: 5, right: 20)
+    var sectionInsets = UIEdgeInsets(top: 5, left: 20, bottom: 5, right: 20)
 
     
     override func viewDidAppear(_ animated: Bool) {
@@ -83,6 +83,13 @@ extension FavoriteScreen:UICollectionViewDelegate,UICollectionViewDataSource,UIC
 //               flowLayout.estimatedItemSize = CGSize(width: 1, height: 1) // Set a non-zero size for estimation
 //           }
         
+        if UIDevice.current.userInterfaceIdiom == .pad {
+             sectionInsets = UIEdgeInsets(top: 20, left: 20, bottom: 5, right: -15)
+
+        }else{
+            sectionInsets = UIEdgeInsets(top: 5, left: 20, bottom: 5, right: 20)
+        }
+        
         
      }
     
@@ -123,11 +130,20 @@ extension FavoriteScreen:UICollectionViewDelegate,UICollectionViewDataSource,UIC
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
+        
         let width = collectionView.frame.width
         let height = collectionView.frame.height
-        let itemsPerRow: CGFloat = 2
+        
+        var itemsPerRow: CGFloat = 2
+        var itemsPerColumn: CGFloat = 3
+        
+        // Adjust layout for iPad
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            itemsPerRow = 3 // You can adjust this value based on your preference
+            itemsPerColumn = 4 // You can adjust this value based on your preference
+        }
+
         let widthPadding = sectionInsets.left * (itemsPerRow + 1)
-        let itemsPerColumn: CGFloat = 3
         let heightPadding = sectionInsets.top * (itemsPerColumn + 1)
         let cellWidth = (width - widthPadding) / itemsPerRow
         let cellHeight = (height - heightPadding) / itemsPerColumn
