@@ -150,7 +150,9 @@ class FavoriteCell: UICollectionViewCell {
             // Adjust UI for iPad
             
             titleLabel.font = .systemFont(ofSize: 17, weight: .bold)
-            descriptionLabel.font = .systemFont(ofSize: 11, weight: .regular)
+//            descriptionLabel.font = .systemFont(ofSize: 11, weight: .regular)
+            favoriteBtnViews.cornerRadius = 10
+
 
             NSLayoutConstraint.activate([
             contentViews.heightAnchor.constraint(equalToConstant: 280) ,
@@ -168,16 +170,19 @@ class FavoriteCell: UICollectionViewCell {
         }else{
             // Common UI settings
             titleLabel.font = .systemFont(ofSize: 13, weight: .bold)
-            descriptionLabel.font = .systemFont(ofSize: 11, weight: .regular)
+//            descriptionLabel.font = .systemFont(ofSize: 11, weight: .regular)
+            favoriteBtnViews.cornerRadius = 6
+            
+            
    
             NSLayoutConstraint.activate([
             contentViews.heightAnchor.constraint(equalToConstant: 240) ,
             contentViews.widthAnchor.constraint(equalToConstant: 170) ,
             imageViewItem.heightAnchor.constraint(equalToConstant: 120),
-            favoriteBtnViews.widthAnchor.constraint(equalToConstant: 50),
-            favoriteBtnViews.heightAnchor.constraint(equalToConstant: 50),
-            btnFavorite.widthAnchor.constraint(equalToConstant: 27),
-            btnFavorite.heightAnchor.constraint(equalToConstant: 27),
+            favoriteBtnViews.widthAnchor.constraint(equalToConstant: 35),
+            favoriteBtnViews.heightAnchor.constraint(equalToConstant: 35),
+            btnFavorite.widthAnchor.constraint(equalToConstant: 20),
+            btnFavorite.heightAnchor.constraint(equalToConstant: 17),
 
             ])
         }

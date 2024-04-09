@@ -98,8 +98,8 @@ class HomePageTableViewCell: UITableViewCell {
             // Card view
             contentViews.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             contentViews.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-            contentViews.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            contentViews.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            contentViews.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+            contentViews.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
             
             // Image view
             imageViewItem.leadingAnchor.constraint(equalTo: contentViews.leadingAnchor),
@@ -108,22 +108,21 @@ class HomePageTableViewCell: UITableViewCell {
 
             
             // Title label
-            titleLabel.topAnchor.constraint(equalTo: imageViewItem.bottomAnchor, constant: 20),
-            titleLabel.leadingAnchor.constraint(equalTo: contentViews.leadingAnchor, constant: 20),
+            titleLabel.topAnchor.constraint(equalTo: imageViewItem.bottomAnchor, constant: 15),
+            titleLabel.leadingAnchor.constraint(equalTo: contentViews.leadingAnchor, constant: 10),
             titleLabel.trailingAnchor.constraint(equalTo: contentViews.trailingAnchor, constant: -20),
             
             // Description label
-            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            descriptionLabel.leadingAnchor.constraint(equalTo: contentViews.leadingAnchor, constant: 20),
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 7),
+            descriptionLabel.leadingAnchor.constraint(equalTo: contentViews.leadingAnchor, constant: 10),
             descriptionLabel.trailingAnchor.constraint(equalTo: contentViews.trailingAnchor, constant: -20),
             
             // Favorite button views
-            favoriteBtnViews.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 10),
+            favoriteBtnViews.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 5),
             favoriteBtnViews.trailingAnchor.constraint(equalTo: contentViews.trailingAnchor, constant: -10),
-            favoriteBtnViews.bottomAnchor.constraint(equalTo: contentViews.bottomAnchor, constant: -10),
+            favoriteBtnViews.bottomAnchor.constraint(equalTo: contentViews.bottomAnchor, constant: -15),
 
             // Favorite button
-
             btnFavorite.centerXAnchor.constraint(equalTo: favoriteBtnViews.centerXAnchor),
             btnFavorite.centerYAnchor.constraint(equalTo: favoriteBtnViews.centerYAnchor),
         ])
@@ -149,14 +148,15 @@ class HomePageTableViewCell: UITableViewCell {
         }else{
             // Common UI settings
             titleLabel.font = .systemFont(ofSize: 17, weight: .bold)
-            descriptionLabel.font = .systemFont(ofSize: 15, weight: .regular)
+            descriptionLabel.font = .systemFont(ofSize: 15, weight: .light)
+            favoriteBtnViews.cornerRadius = 7
    
             NSLayoutConstraint.activate([
-                imageViewItem.heightAnchor.constraint(equalToConstant: 200),
-                favoriteBtnViews.widthAnchor.constraint(equalToConstant: 50),
-                favoriteBtnViews.heightAnchor.constraint(equalToConstant: 50),
-                btnFavorite.widthAnchor.constraint(equalToConstant: 27),
-                btnFavorite.heightAnchor.constraint(equalToConstant: 27),
+                imageViewItem.heightAnchor.constraint(equalToConstant: 190),
+                favoriteBtnViews.widthAnchor.constraint(equalToConstant: 40),
+                favoriteBtnViews.heightAnchor.constraint(equalToConstant: 40),
+                btnFavorite.widthAnchor.constraint(equalToConstant: 24),
+                btnFavorite.heightAnchor.constraint(equalToConstant: 24),
 
             ])
         }

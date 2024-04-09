@@ -1,5 +1,6 @@
 
 import UIKit
+import Combine
 
 class HomePage: BaseVC {
     
@@ -7,24 +8,28 @@ class HomePage: BaseVC {
     @IBOutlet weak var tableView: UITableView!
     
     
-      var viewModel  = HomePageViewModel()
+    var viewModel  = HomePageViewModel()
 
-      var isFetching = false // Flag to prevent multiple requests
+    // Flag to prevent multiple requests
+    var isFetching = false
+
+    // For Combine subscriptions
+    var cancellables = Set<AnyCancellable>()
 
   
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        updateBadgeValue()
         tableView.reloadData()
-        self.setNavigationBar(title: "Home Page")
 
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
         
     }
  
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,74 +37,107 @@ class HomePage: BaseVC {
         //searchBar
         searchBar.sizeToFit()
         searchBar.delegate = self
+        self.setNavigationBar(title: "Home Page")
         setupTableView()
         setupViewModelBindings()
         fetchDataIfNeeded()
 
     }
     
+
     
     private func setupViewModelBindings() {
-            viewModel.apiResultUpdated = { [weak self] in
-                guard let self = self else { return }
-                self.handleDataUpdate()
-            }
-            
-            viewModel.errorOccurred = { [weak self] errorMessage in
-                guard let self = self else { return }
-                self.handleError(errorMessage)
-            }
+        viewModel.apiResultUpdated = { [weak self] in
+            guard let self = self else { return }
+            self.handleDataUpdate()
         }
         
-        private func fetchDataIfNeeded() {
-            if !isFetching {
-                isFetching = true
-                indicator.startAnimating()
-                viewModel.fetchTrending()
-            }
+        viewModel.errorOccurred = { [weak self] errorMessage in
+            guard let self = self else { return }
+            self.handleError(errorMessage)
         }
+    }
         
-        private func handleDataUpdate() {
-            indicator.stopAnimating()
-            tableView.reloadData()
-            isFetching = false
+    private func fetchDataIfNeeded() {
+        if !isFetching {
+            isFetching = true
+            indicator.startAnimating()
+            viewModel.fetchTrending()
         }
+    }
+    
+    private func handleDataUpdate() {
+        indicator.stopAnimating()
+        tableView.reloadData()
+        isFetching = false
+    }
+    
+    private func handleError(_ errorMessage: String?) {
+        indicator.stopAnimating()
+        if let errorMessage = errorMessage {
+            showErrorAlert(message: errorMessage)
+        }
+        isFetching = false
+    }
+    
+    
+    func updateBadgeValue(){
         
-        private func handleError(_ errorMessage: String?) {
-            indicator.stopAnimating()
-            if let errorMessage = errorMessage {
-                showErrorAlert(message: errorMessage)
-            }
-            isFetching = false
+        
+    viewModel.countItemFavoriteUpdate()
+                .sink(receiveCompletion: { completion in
+                    switch completion {
+                    case .finished:
+                        print("Fetch completed")
+                    case .failure(let error):
+                        print("Error fetching trending objects: \(error.localizedDescription)")
+                    }
+                }, receiveValue: { objects in
+                    // Handle the fetched objects here
+                    print("Fetched objects: \(objects.count)")
+                    self.updateNavigationBarWithFavoriteCount(objects.count)
+
+                })
+                .store(in: &cancellables)
+
+    }
+    
+    
+    
+    
+    private func updateNavigationBarWithFavoriteCount(_ count: Int) {
+        
+        let backButton = BadgeButton(type: .system)
+        backButton.setImage(UIImage(systemName: "suit.heart"), for: .normal)
+        backButton.tintColor = .black // Set button tint color
+        backButton.addTarget(self, action: #selector(backFuncs), for: .touchUpInside)
+        
+        if count > 0 {
+            backButton.badgeValue = "\(count)"
         }
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        
+        
+    }
         
     
     
     override func setNavigationBar(title: String?) {
+        //title
         navigationItem.title = title ?? ""
         navigationItem.titleView?.tintColor = .white
         
-
-      let backButton  = UIButton(type: .system)
-        backButton.setImage(UIImage(systemName: "suit.heart"), for: .normal)
-        backButton.tintColor = .black
-        backButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
-        backButton.addTarget(self, action:#selector(backFuncs), for: .touchUpInside)
-
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
-                
-      showSearchBarButton(shouldShow: true)
+        updateBadgeValue()
+        
+        showSearchBarButton(shouldShow: true)
 
     }
     
-    @objc override func backFuncs() {
-        
-        DispatchQueue.main.async {
-            self.viewModel.homePageCoordinator?.toFavoriteScreen()
-
-        }
+    @objc  func backFuncs() {
+        self.viewModel.homePageCoordinator?.toFavoriteScreen()
 
     }
+    
 
 }
 
@@ -127,14 +165,9 @@ extension HomePage: UISearchBarDelegate {
       self.viewModel.fetchTrending()
       self.tableView.reloadData()
            
-
-
-       }
+ }
     
-    
-
-       
-    }
+}
 
 
 
@@ -158,12 +191,13 @@ extension HomePage : UITableViewDelegate,UITableViewDataSource,UIScrollViewDeleg
             if cell.isFavorite {
                 
                 
-            self.showAlert(title: "Delete", message: "Are you sure you want to delete this item?", actionTitle: "Delete", cancelTitle: "Cancel", actionHandler: {
+                self.showAlert(title: "Delete", message: "Are you sure you want to delete this item?", actionTitle: "Delete", cancelTitle: "Cancel", actionHandler: {
 
             RealmControl.shared.deleteFavorite(id: item.id)
             let image = UIImage(systemName: "heart")
             cell.btnFavorite.setImage(image, for: .normal)
             cell.isFavorite = false
+            self.updateBadgeValue()
             })
 
                 
@@ -173,6 +207,7 @@ extension HomePage : UITableViewDelegate,UITableViewDataSource,UIScrollViewDeleg
                 let image = UIImage(systemName: "heart.fill")
                 cell.btnFavorite.setImage(image, for: .normal)
                 cell.isFavorite = true
+                self.updateBadgeValue()
             }
         
 }

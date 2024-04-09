@@ -55,7 +55,7 @@ class FavoriteScreen: BaseVC {
 
     }
     
-    @objc override func backFuncs() {
+    @objc  func backFuncs() {
         
         DispatchQueue.main.async {
             self.viewModel.goToBack()

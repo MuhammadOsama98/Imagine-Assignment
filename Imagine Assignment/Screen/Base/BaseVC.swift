@@ -1,9 +1,3 @@
-//
-//  BaseVC.swift
-//  Imagine Assignment
-//
-//  Created by Pillars Fintech on 05/04/2024.
-//
 
 import UIKit
 
@@ -60,42 +54,89 @@ class BaseVC: UIViewController {
         
     }
     
+
     
-    
-    @objc func backFuncs() {
+func showAlert(title: String,
+               alertColor: UIColor? = UIColor.black,
+               message: String,
+               actionTitle: String,
+               cancelTitle: String,
+               actionHandler: (() -> Void)?,
+               cancelHandler: (() -> Void)? = nil
+                ) {
         
-    }
-    
-   
-    func showAlert(title: String,
-                   message: String,
-                   actionTitle: String,
-                   cancelTitle: String,
-                   actionHandler:(()->Void)?,
-                   cancelHandler:(()->Void)? = nil) {
+    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        // Customize title if needed
+        if let titleColor = alertColor {
+            let titleAttributes: [NSAttributedString.Key: Any] = [
+                .foregroundColor: titleColor
+            ]
+            let attributedTitle = NSAttributedString(string: title, attributes: titleAttributes)
+            alert.setValue(attributedTitle, forKey: "attributedTitle")
+        }
+        
+        // Customize message if needed
+        if let messageColor = alertColor {
+            let messageAttributes: [NSAttributedString.Key: Any] = [
+                .foregroundColor: messageColor
+            ]
+            let attributedMessage = NSAttributedString(string: message, attributes: messageAttributes)
+            alert.setValue(attributedMessage, forKey: "attributedMessage")
+        }
         
         let okAction = UIAlertAction(title: actionTitle, style: .default) { (action) in
             actionHandler?()
+        }
+        
+        // Set color for action button if provided
+        if let actionColor = alertColor {
+            okAction.setValue(actionColor, forKey: "titleTextColor")
         }
         
         let cancelAction = UIAlertAction(title: cancelTitle, style: .cancel) { (action) in
             cancelHandler?()
         }
         
+        let  cancelColor: UIColor? = UIColor.red
+        // Set color for cancel button if provided
+        if let cancelColor = cancelColor {
+            cancelAction.setValue(cancelColor, forKey: "titleTextColor")
+        }
+        
         alert.addAction(okAction)
         alert.addAction(cancelAction)
         
         self.present(alert, animated: true, completion: nil)
+}
+
+    
+    
+    func showErrorAlert(message: String, titleColor: UIColor? = UIColor.black, messageColor: UIColor? = UIColor.black) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        
+        // Customize title color if provided
+        if let titleColor = titleColor {
+            let titleAttributes: [NSAttributedString.Key: Any] = [
+                .foregroundColor: titleColor
+            ]
+            let attributedTitle = NSAttributedString(string: "Error", attributes: titleAttributes)
+            alert.setValue(attributedTitle, forKey: "attributedTitle")
+        }
+        
+        // Customize message color if provided
+        if let messageColor = messageColor {
+            let messageAttributes: [NSAttributedString.Key: Any] = [
+                .foregroundColor: messageColor
+            ]
+            let attributedMessage = NSAttributedString(string: message, attributes: messageAttributes)
+            alert.setValue(attributedMessage, forKey: "attributedMessage")
+        }
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true, completion: nil)
     }
-    
-    
-    func showErrorAlert(message: String) {
-          let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-          alert.addAction(UIAlertAction(title: "OK", style: .default))
-          present(alert, animated: true, completion: nil)
-      }
+
     
     
     func setNavigationBar(title:String?){
@@ -115,10 +156,8 @@ class BaseVC: UIViewController {
     }
 
     @objc func handleShowSearchBar() {
-        DispatchQueue.main.async { [weak self] in
-            self?.searchBar.becomeFirstResponder()
-            self?.search(shouldShow: true)
-        }
+        self.searchBar.becomeFirstResponder()
+        self.search(shouldShow: true)
     }
     
     

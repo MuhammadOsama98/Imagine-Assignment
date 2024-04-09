@@ -65,9 +65,13 @@ class ItemDetailsScreen: BaseVC {
         if UIDevice.current.userInterfaceIdiom == .pad {
             // Adjust UI for iPad
             itemDetailsTitle.font = .systemFont(ofSize: 29, weight: .bold)
-            itemDetailsDescription.font = .systemFont(ofSize: 26, weight: .regular)
+            itemDetailsDescription.font = .systemFont(ofSize: 26, weight: .light)
             itemDetailsType.font = .systemFont(ofSize: 27, weight: .bold)
 
+        }else{
+            itemDetailsTitle.font = .systemFont(ofSize: 19, weight: .bold)
+            itemDetailsDescription.font = .systemFont(ofSize: 16, weight: .light)
+            itemDetailsType.font = .systemFont(ofSize: 17, weight: .bold)
         }
         
         
@@ -174,7 +178,7 @@ class ItemDetailsScreen: BaseVC {
 
     }
     
-    @objc override func backFuncs() {
+    @objc  func backFuncs() {
         
         if viewModel.itemDetailCoordinator?.from == "FavoriteItem"{
             DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
