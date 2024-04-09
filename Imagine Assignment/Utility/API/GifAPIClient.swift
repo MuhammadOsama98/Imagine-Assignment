@@ -19,7 +19,6 @@ struct GifAPIClient {
     
     
     func requestTrendingGifs(page: Int, pageSize: Int, completion: @escaping ([SearchResult]?, Error?) -> Void) {
-//          let requestUrl = endPoint(endPoint: .trending) + "?api_key=\(Constants.giphyApiKey)&limit=\(pageSize)&offset=\(page * pageSize)&rating=pg"
         
         let requestUrl = endPoint(endPoint: .trending)+"?api_key=\(Constants.giphyApiKey)&limit=20&rating=pg"
 
@@ -57,7 +56,6 @@ struct GifAPIClient {
     
     
     func requestSearchGifs(query: String, page: Int, pageSize: Int, completion: @escaping ([SearchResult]?, Error?) -> Void) {
-//           let requestUrl = endPoint(endPoint: .search) + "?api_key=\(Constants.giphyApiKey)&q=\(query)&limit=\(pageSize)&offset=\(page * pageSize)&rating=g&lang=en"
         let requestUrl = endPoint(endPoint: .search)+"?api_key=\(Constants.giphyApiKey)&q=\(query)&limit=20&offset=0&rating=g&lang=en"
 
        

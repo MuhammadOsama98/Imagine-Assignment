@@ -89,8 +89,10 @@ func showAlert(title: String,
             actionHandler?()
         }
         
+    let  actionColor: UIColor? = UIColor.red
+
         // Set color for action button if provided
-        if let actionColor = alertColor {
+        if let actionColor = actionColor {
             okAction.setValue(actionColor, forKey: "titleTextColor")
         }
         
@@ -98,9 +100,8 @@ func showAlert(title: String,
             cancelHandler?()
         }
         
-        let  cancelColor: UIColor? = UIColor.red
         // Set color for cancel button if provided
-        if let cancelColor = cancelColor {
+        if let cancelColor = alertColor {
             cancelAction.setValue(cancelColor, forKey: "titleTextColor")
         }
         
