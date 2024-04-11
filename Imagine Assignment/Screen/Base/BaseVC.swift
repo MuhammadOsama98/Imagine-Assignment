@@ -138,6 +138,8 @@ func showAlert(title: String,
             alert.setValue(attributedMessage, forKey: "attributedMessage")
         }
         
+        
+        
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true, completion: nil)
     }
@@ -151,26 +153,38 @@ func showAlert(title: String,
     }
     
     func showSearchBarButton(shouldShow: Bool) {
-        if shouldShow {
-             let searchButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(handleShowSearchBar))
-             searchButton.tintColor = .black
-             navigationItem.rightBarButtonItem = searchButton
-         } else {
-             navigationItem.rightBarButtonItem = nil
-         }
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            if shouldShow {
+                 let searchButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(handleShowSearchBar))
+                 searchButton.tintColor = .black
+                 navigationItem.rightBarButtonItem = searchButton
+             } else {
+                 navigationItem.rightBarButtonItem = nil
+             }
+        }
+        
+
     }
 
     @objc func handleShowSearchBar() {
-        self.searchBar.becomeFirstResponder()
-        self.search(shouldShow: true)
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.searchBar.becomeFirstResponder()
+            self.search(shouldShow: true)
+        }
     }
     
     
     func search(shouldShow: Bool) {
-        showSearchBarButton(shouldShow: !shouldShow)
-        searchBar.showsCancelButton = shouldShow
-        searchBar.tintColor = .black
-        navigationItem.titleView = shouldShow ? searchBar : nil
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.showSearchBarButton(shouldShow: !shouldShow)
+            self.searchBar.showsCancelButton = shouldShow
+            self.searchBar.tintColor = .black
+            self.navigationItem.titleView = shouldShow ? self.searchBar : nil
+        }
         
     }
 
