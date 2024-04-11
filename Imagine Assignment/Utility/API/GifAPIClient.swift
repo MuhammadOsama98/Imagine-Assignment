@@ -18,7 +18,7 @@ struct GifAPIClient {
     }
     
     
-    func requestTrendingGifs(page: Int, pageSize: Int, completion: @escaping ([SearchResult]?, Error?) -> Void) {
+    func requestTrendingGifs(page: Int, pageSize: Int, completion: @escaping (ResponseModel?, Error?) -> Void) {
         
         let requestUrl = endPoint(endPoint: .trending)+"?api_key=\(Constants.giphyApiKey)&limit=20&rating=pg"
 
@@ -27,7 +27,7 @@ struct GifAPIClient {
               switch response.result {
               case .success(let data):
                   if let result: ResponseModel = parse(json: data) {
-                      completion(result.data, nil)
+                      completion(result, nil)
                   } else {
                       completion(nil, GifAPIError.decodingError)
                   }

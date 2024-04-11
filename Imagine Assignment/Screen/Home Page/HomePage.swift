@@ -40,7 +40,7 @@ class HomePage: BaseVC {
         self.setNavigationBar(title: "Home Page")
         setupTableView()
         setupViewModelBindings()
-        fetchDataIfNeeded()
+        fetchData()
 
     }
     
@@ -58,7 +58,7 @@ class HomePage: BaseVC {
         }
     }
         
-    private func fetchDataIfNeeded() {
+    private func fetchData() {
         if !isFetching {
             isFetching = true
             indicator.startAnimating()
@@ -166,6 +166,11 @@ extension HomePage: UISearchBarDelegate {
       self.tableView.reloadData()
            
  }
+    
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+          searchBar.resignFirstResponder()
+          return true
+      }
     
 }
 

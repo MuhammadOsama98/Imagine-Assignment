@@ -73,10 +73,16 @@ func fetchTrending() {
            print("Error: \(error)")
        } else {
            if let results = searchResults {
-               // Append new results to existing ones
-               self.searchResults.append(contentsOf: results)
-               self.apiResultUpdated()
-               self.currentPage += 1
+               if results.meta.status != 200 {
+                   self.errorMessage = " \(results.meta.msg)"
+               }else{
+                   // Append new results to existing ones
+                   self.searchResults.removeAll()
+                   self.searchResults.append(contentsOf: results.data)
+                   self.apiResultUpdated()
+                   self.currentPage += 1
+               }
+  
            }
        }
    }
@@ -96,6 +102,7 @@ func searchGif(query: String) {
            print("Error: \(error)")
        } else {
            if let results = searchResults {
+               
  
                self.searchResults.removeAll()
                self.searchResults.append(contentsOf: results)

@@ -2,7 +2,7 @@
 import UIKit
 
 class BaseVC: UIViewController {
-    
+
     
      lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -54,6 +54,10 @@ class BaseVC: UIViewController {
         
     }
     
+    
+    @objc func dismissKeyboard() {
+        searchBar.resignFirstResponder()
+    }
 
     
 func showAlert(title: String,
